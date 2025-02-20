@@ -7,7 +7,7 @@ main_window.geometry('400x600')
 
 # Variable to store the input and display text
 entry_var = tk.StringVar()
-
+label_var = tk.StringVar()
 # Create an entry widget for the calculator screen
 screen_entry = tk.Entry(main_window, textvariable=entry_var, bd=2, relief="ridge", font=("Arial", 20))
 screen_entry.pack(fill="both", padx=5, pady=5)
@@ -61,7 +61,12 @@ def button_input(button_text):
             show_result(num**2)
     elif button_text == "=":
         # Evaluate the expression and show the result
-        show_result(str(eval(current_text)))
+        try:
+            show_result(str(eval(current_text)))
+            label_var.set("")
+        except:
+            label_var.set("Error")
+
     elif button_text == "C":
         # Clear the entry
         entry_var.set("")
@@ -88,6 +93,8 @@ for button_row in buttons:
     row_frame.pack()
     for button in button_row:
         tk.Button(row_frame, text=button, font=("Arial", 16), command=lambda b=button: button_input(b)).pack(side="left", fill="both", expand=True)
+
+tk.Label(main_window, textvariable=label_var, font=("Arial", 16)).pack(side="left", fill="both", expand=True)
 
 # Run the main application loop
 if __name__ == '__main__':
